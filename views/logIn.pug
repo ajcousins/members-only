@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+
+
+    
+    
+    form.form-wrapper(action="/log-in" method="POST")
+        h1 Log In
+        label(for="username") Username 
+        input(name="username" type="text")
+        label(for="password") Password 
+        input(name="password" type="password")
+        button Log In

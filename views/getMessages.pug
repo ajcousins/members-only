@@ -1,9 +1,40 @@
-doctype html
-html(lang='en')
-  head
-    title Members Only
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    h1 Testing: ok.
+extends layout 
+
+block content
+
+    //- .message
+    //-     div
+    //-         .user Admin 
+    //-         .speech-bubble Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    //-     .date 25th November 2012
+
+    //- .message
+    //-         div
+    //-             .user Admin 
+    //-             .speech-bubble Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    //-         .date 25th November 2012
+
+    //- p= messages
+
+    each message in messages 
+        - let username = "?"
+        - let colour = "hsl(0, 0%, 55%)"
+        - if (user) { username = message.user.username; colour = `hsl(${message.user.hue}, 100%, 55%)`}
+        - let ownerClass = "not-user";
+        - if (user && user.username === message.user.username) ownerClass = "";
+
+
+        div(class=ownerClass)
+            div
+                .user= username
+                .speech-bubble(style=`background-color: ${colour}`)= message.text
+            .date= message.dateCreated_format
+
+    if user
+        div         
+            form.new-message(action="" method="POST")
+                .user= user.username
+                .speech-bubble-new
+                    input(type="hidden" value=user.username)
+                    textarea(name="newMessage" rows="4" cols="50" placeholder="Send a new message...")
+                button.send-but Send
