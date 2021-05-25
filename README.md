@@ -3,6 +3,7 @@
 Live app can be visited [here](https://pure-earth-34113.herokuapp.com/).
 
 **Member password:** `wholovesorangesoda`
+
 **Admin password hint:** _Response to member password._
 
 ### Brief
