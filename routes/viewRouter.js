@@ -29,4 +29,13 @@ router.get("/log-out", (req, res) => {
   res.redirect("/");
 });
 
+router
+  .route("/membership")
+  .get(viewController.getMembership)
+  .post(viewController.postMembership);
+
+router.route("/delete").post(viewController.deleteMessage);
+
+router.route("/404").get(viewController.error);
+
 module.exports = router;

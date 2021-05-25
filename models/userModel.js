@@ -9,6 +9,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "A user must have a password"],
   },
+  isMember: {
+    type: Boolean,
+    default: false,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   hue: {
     type: Number,
     default: () => {

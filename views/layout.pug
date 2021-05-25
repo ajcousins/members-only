@@ -13,12 +13,19 @@ html(lang='en')
                 a(href="/")
                     h2 Members Only
             div.navBar-admin
-                if user 
-                    h4 #{user.username}
+                if currentUser 
+                    h4 #{currentUser.username}
+                    span &nbsp; | &nbsp;
+                    if currentUser.isAdmin
+                        span Admin 
+                    else if currentUser.isMember 
+                        a(href="/membership") Member
+                    else 
+                        a(href="/membership") Become a Member
                     a(href='/log-out') &nbsp; | &nbsp;Log Out
                 else
                     a(href='/log-in') Log In 
-                    span &nbsp;/&nbsp;
+                    span &nbsp; | &nbsp;
                     a(href='register')  Register
                 
         .content-wrapper

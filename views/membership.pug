@@ -1,0 +1,16 @@
+extends layout 
+
+block content
+
+    form.form-wrapper(action="/membership" method="POST")
+        h1 Membership
+        if errorMessage
+            p.error-message= errorMessage
+        label(for="password") What's the password?
+        input(type="hidden" name="userId" value=currentUser.id)
+        input(name="password" type="password")
+        button Enter
+
+    
+    
+    

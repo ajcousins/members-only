@@ -44,42 +44,87 @@ exports.getRegister = (req, res) => {
 
 exports.postRegister = (req, res, next) => {
   if (!req.body.username) res.redirect("/register?e=01");
-  if (!req.body.password) res.redirect("/register?e=02");
-  if (req.body.password != req.body.confirm) {
+  else if (!req.body.password) res.redirect("/register?e=02");
+  else if (req.body.password != req.body.confirm) {
     res.redirect("/register?e=03");
-  }
-
-  bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-    if (err) {
-      return next(err);
-    }
-    const user = new User({
-      username: req.body.username,
-      password: hashedPassword,
-    }).save((err) => {
+  } else {
+    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
       if (err) {
         return next(err);
       }
-      res.redirect("/log-in");
+      const user = new User({
+        username: req.body.username,
+        password: hashedPassword,
+      }).save((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/log-in");
+      });
     });
-  });
+  }
 };
 
 exports.getLogIn = (req, res) => {
   res.status(200).render("logIn");
 };
 
-// exports.logIn = () => {
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/",
-//   });
-// };
+exports.getMembership = (req, res) => {
+  console.log(req.query);
+  let errorMessage;
+  if (req.query.e === "01") errorMessage = "Incorrect Password";
+  res.status(200).render("membership", { errorMessage });
+};
 
-// exports.logOut = (req, res) => {
-//   req.logout();
-//   res.redirect("/");
-// };
+exports.postMembership = async (req, res) => {
+  if (
+    req.body.password !== process.env.MEMBERSHIP &&
+    req.body.password !== process.env.ADMIN
+  ) {
+    res.redirect("/membership?e=01");
+  } else if (req.body.password === process.env.ADMIN) {
+    try {
+      await User.findByIdAndUpdate(
+        req.body.userId,
+        {
+          isMember: true,
+          isAdmin: true,
+        },
+        { runValidators: true }
+      );
+      res.redirect("/");
+    } catch (err) {
+      res.status(404).render("404", { message: err });
+    }
+  } else {
+    try {
+      await User.findByIdAndUpdate(
+        req.body.userId,
+        {
+          isMember: true,
+        },
+        { runValidators: true }
+      );
+      res.redirect("/");
+    } catch (err) {
+      res.status(404).render("404", { message: err });
+    }
+  }
+};
+
+exports.deleteMessage = async (req, res) => {
+  console.log(req.body.messageId);
+  try {
+    await Message.findByIdAndDelete(req.body.messageId);
+    res.redirect("/");
+  } catch (err) {
+    res.status(404).render("404", { message: err });
+  }
+};
+
+exports.error = (req, res) => {
+  res.status(200).render("404");
+};
 
 // Passport Function
 passport.use(

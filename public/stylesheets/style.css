@@ -56,6 +56,7 @@ button:hover {
   width: 100%;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .footer {
@@ -94,6 +95,7 @@ button:hover {
   width: 50%;
   min-width: 320px;
   max-width: 400px;
+  z-index: -1;
 }
 
 .form-wrapper {
@@ -116,7 +118,13 @@ button:hover {
 .not-user {
   position: relative;
   left: -50px;
-  z-index: -1;
+  /* z-index: -1; */
+}
+
+.is-user {
+  position: relative;
+  left: 50px;
+  /* z-index: -1; */
 }
 
 .speech-bubble {
@@ -126,8 +134,12 @@ button:hover {
   margin-bottom: 5px;
   margin-top: 5px;
   padding: 0.7em;
-  border-radius: 1.3em;
+  border-radius: 0 1.3em 1.3em 1.3em;
   box-shadow: 2px 2px 2px #00000050;
+}
+
+.bubble-right {
+  border-radius: 1.3em 1.3em 0 1.3em;
 }
 
 .date {
@@ -169,3 +181,30 @@ textarea:focus {
   margin-left: auto;
   margin-right: 0;
 } */
+
+.delete {
+  font-size: 0.8em;
+  color: #6d6d6d;
+  margin-bottom: 5px;
+  text-align: right;
+  margin-right: 0.8em;
+}
+.bottom-bar {
+  display: flex;
+  margin-bottom: 5px;
+  justify-content: flex-end;
+}
+
+button.delete-but {
+  background-color: transparent;
+  color: #6d6d6d;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  /* cursor: pointer; */
+  z-index: 1;
+}
+
+button.delete-but:hover {
+  color: #878787;
+}
