@@ -1,10 +1,14 @@
 {
   "name": "members-only",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.0.0"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "startdev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

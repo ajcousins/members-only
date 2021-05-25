@@ -18,9 +18,7 @@ exports.getMessages = async (req, res) => {
 };
 
 exports.postMessage = (req, res, next) => {
-  console.log(req.body);
-  console.log(req.user);
-  const message = new Message({
+  new Message({
     text: req.body.newMessage,
     user: req.user._id,
   }).save((err) => {
@@ -32,7 +30,6 @@ exports.postMessage = (req, res, next) => {
 };
 
 exports.getRegister = (req, res) => {
-  console.log(req.query);
   let errorMessage;
   if (req.query.e === "01") errorMessage = "Please enter a username.";
   if (req.query.e === "02") errorMessage = "Please enter a password.";
@@ -52,7 +49,7 @@ exports.postRegister = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      const user = new User({
+      new User({
         username: req.body.username,
         password: hashedPassword,
       }).save((err) => {
@@ -69,8 +66,17 @@ exports.getLogIn = (req, res) => {
   res.status(200).render("logIn");
 };
 
+exports.postLogIn = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/log-in",
+});
+
+exports.logOut = (req, res) => {
+  req.logout();
+  res.redirect("/");
+};
+
 exports.getMembership = (req, res) => {
-  console.log(req.query);
   let errorMessage;
   if (req.query.e === "01") errorMessage = "Incorrect Password";
   res.status(200).render("membership", { errorMessage });
@@ -113,7 +119,6 @@ exports.postMembership = async (req, res) => {
 };
 
 exports.deleteMessage = async (req, res) => {
-  console.log(req.body.messageId);
   try {
     await Message.findByIdAndDelete(req.body.messageId);
     res.redirect("/");
@@ -126,7 +131,7 @@ exports.error = (req, res) => {
   res.status(200).render("404");
 };
 
-// Passport Function
+// Passport Functions
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {

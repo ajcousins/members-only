@@ -9,7 +9,6 @@ block content
         - let ownerClass = "not-user";
         - if (user && user.username === message.user.username) {ownerClass = "is-user"; username = message.user.username; colour = `hsl(${message.user.hue}, 100%, 40%)`}
 
-
         div(class=ownerClass)
             div
                 .user= username

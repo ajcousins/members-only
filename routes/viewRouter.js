@@ -1,6 +1,5 @@
 const express = require("express");
 const viewController = require("./../controllers/viewController");
-const passport = require("passport");
 
 const router = express.Router();
 
@@ -14,20 +13,12 @@ router
   .get(viewController.getRegister)
   .post(viewController.postRegister);
 
-router.route("/log-in").get(viewController.getLogIn);
+router
+  .route("/log-in")
+  .get(viewController.getLogIn)
+  .post(viewController.postLogIn);
 
-router.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/log-in",
-  })
-);
-
-router.get("/log-out", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
+router.route("/log-out").get(viewController.logOut);
 
 router
   .route("/membership")
